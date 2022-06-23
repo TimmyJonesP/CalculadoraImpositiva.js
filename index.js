@@ -2,15 +2,11 @@
 alert("Hola, bienvenido a Steamcito. Podes ingresar el valor del juego que queres adquirir y te daremos el precio final contando los impuestos argentinos!" )
 /// funcion con variable de nombre
 let nombre = prompt("Cómo te llamas?")
-function nombr(nombre){
-    if (nombre == ""){
-        alert("Por favor ingrese su nombre!")
-        nombr()
-    }
-    else{
-        edad()
-    }
-    return nombre
+if (nombre == "" || nombre === null){
+    alert("Por favor refresque la página e ingrese su nombre!")
+}
+else{
+    edad()
 }
 ///Funcion que se activa si la edad está dentro de la correcta
 function steam (){
@@ -27,10 +23,12 @@ function edad(){
     let years = parseInt(prompt("Que edad tenés " + nombre +  "? Ingresa número."))
     if (years >= 120 ){
         alert("Estás muy viejo :(")
+        edad()
     } 
     
     else if (years < 18){
         alert("Todavía sos muy joven")
+        edad()
     }
     
     else if (years > 18){
@@ -70,5 +68,3 @@ function another(){
     }
     
 }
-/// Llamado al inicio de ciclo!
-nombr()
