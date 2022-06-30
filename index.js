@@ -54,13 +54,13 @@ function another(){
         steam()
     }
     else if (otro == "no"){
-        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto!")
+        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto! En consola se mostrarán juegos destacados con los impuestos aplicados")
     }
     else if (otro == "No"){
-        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto!")
+        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto! En consola se mostrarán juegos destacados con los impuestos aplicados")
     }
     else if (otro == "NO"){
-        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto!")
+        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto! En consola se mostrarán juegos destacados con los impuestos aplicados")
     }
     else{
         alert("Debe confirmar con Si ó No")
@@ -68,3 +68,22 @@ function another(){
     }
     
 }
+
+class Juegos {
+    constructor(nombre, precio, link){
+        this.nombre = nombre;
+        this.precio = precio;
+        this.link = link;
+    }
+    sumaImpuestos(){
+        this.precio = this.precio * 1.65;
+    }
+}
+
+const juegos = [];
+juegos.push (new Juegos ("League Of Legends", 1200, "https://www.leagueoflegends.com/es-mx/"));
+juegos.push (new Juegos ("Tomb Raider", 1200, "https://store.steampowered.com/app/203160/Tomb_Raider/"));
+juegos.push (new Juegos ("BioShock", 300, "https://store.steampowered.com/app/7670/BioShock/"));
+for (const juego of  juegos)
+    juego.sumaImpuestos();
+console.log(juegos)
