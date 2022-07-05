@@ -1,26 +1,29 @@
-///Alerta de bienvenida!
-alert("Hola, bienvenido a Steamcito. Podes ingresar el valor del juego que queres adquirir y te daremos el precio final contando los impuestos argentinos!" )
+//Constantes y var
+const productos = [];
+let tabla;
+let textoImpuestos;
+let textoTotal;
+
 /// funcion con variable de nombre
-let nombre = prompt("Cómo te llamas?")
-if (nombre == "" || nombre === null){
-    alert("Por favor refresque la página e ingrese su nombre!")
-}
-else{
-    edad()
-}
-///Funcion que se activa si la edad está dentro de la correcta
-function steam (){
-    let juego = parseFloat(prompt("Bien " + nombre + ", ingrese el valor del juego igual que se vé publicado en la plataforma ó página web."))
-    const IVA = (juego * 0.65);
-    let valor = juego + IVA;
+let neim = prompt("Cómo te llamas?")
+function nombr(neim){
     
-    alert(nombre + " el valor que se verá reflejado en la tarjeta contando los impuestos estatales es de $" + valor + " totales!")
-    another()
+    if (neim == "" || neim === null){
+        alert("Por favor ingrese su nombre!")
+		neim = prompt("Ingrese nombre")
+        nombr()
+    }
+
+    else{
+        edad()
+    }
+
+    return neim
 }
 
 ///funcion que verifica edad mediante if y en caso de estar en la correspondiente dará con la funcion anterior.
 function edad(){
-    let years = parseInt(prompt("Que edad tenés " + nombre +  "? Ingresa número."))
+    let years = parseInt(prompt("Que edad tenés " + neim +  "? Ingresa número."))
     if (years >= 120 ){
         alert("Estás muy viejo :(")
         edad()
@@ -32,58 +35,106 @@ function edad(){
     }
     
     else if (years > 18){
-        alert(nombre + ", calculemos el coste total de tu juego.")
-        steam()
-    }
+        alert(neim + ", calculemos el coste total de tus juegos.")
+        registrarProductos()
 
+    }
+    
     else{
-        alert("Por favor " + nombre + " ingrese su edad para poder continuar")
+        alert("Por favor " + neim + " ingrese su edad para poder continuar")
         edad()
     }
 }
-///función de si quiere sacar los impuestos de otro juego
-function another(){
-    let otro = prompt("Desea calcular el coste de otro juego ó aplicación?\n si \n no")
-    if (otro == "si"){
-        steam()
+
+///OBJETO
+class Producto {
+    constructor(nombre, valor, impuestos, total) {
+        this.nombre = nombre.toUpperCase();
+        this.valor = valor;
+        this.impuestos = impuestos;
+        this.total = total;
     }
-    else if (otro == "Si"){
-        steam()
-    }
-    else if (otro == "SI"){
-        steam()
-    }
-    else if (otro == "no"){
-        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto! En consola se mostrarán juegos destacados con los impuestos aplicados")
-    }
-    else if (otro == "No"){
-        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto! En consola se mostrarán juegos destacados con los impuestos aplicados")
-    }
-    else if (otro == "NO"){
-        alert("Gracias por utilizar nuestra plataforma para verificar el precio del producto! En consola se mostrarán juegos destacados con los impuestos aplicados")
-    }
-    else{
-        alert("Debe confirmar con Si ó No")
-        another()
-    }
-    
+    ///Totales reducidos
+    calcularImpuestos = () => this.impuestos;
+    calcularTotal = () => this.total;
+ }
+
+///Entrada a Tabla
+function inicializarElementos() {
+    tabla = document.getElementById("tabla-productos");
+    textoImpuestos = document.querySelector("#totalImpuestos span");
+    textoTotal = document.querySelector("#totalTotal span");
 }
 
-class Juegos {
-    constructor(nombre, precio, link){
-        this.nombre = nombre;
-        this.precio = precio;
-        this.link = link;
-    }
-    sumaImpuestos(){
-        this.precio = this.precio * 1.65;
-    }
+///Entrada de Objetos mediante prompt
+function registrarProductos() {
+    let numeroProductos = parseInt(prompt("Cuantos juegos quiere calcular?"));
+    for (let index = 0; index < numeroProductos; index++) {
+        let nombre = prompt("Ingrese el nombre del juego para poder identificarlo en la tabla");
+        if(nombre == null || nombre === ""){
+            alert("Ingrese nombre por favor!")
+            nombre = prompt("Ingrese el nombre del juego para poder identificarlo en la tabla")
+        }
+        
+        let valor = parseFloat(prompt("Ingrese el precio que indica steam"));
+        if(valor === null || valor === 0 || valor === NaN || valor === "0"){
+            alert("Ingrese valor por favor!")
+            valor = parseFloat(prompt("Ingrese el precio que indica steam"))
+        }
+
+
+        let impuestos = valor * 0.65;
+        let total = valor + impuestos;
+
+        let juegoARegistrar = new Producto(
+            nombre,
+            valor,
+            impuestos,
+            total
+    );
+    productos.push(juegoARegistrar);
+  }
 }
 
-const juegos = [];
-juegos.push (new Juegos ("League Of Legends", 1200, "https://www.leagueoflegends.com/es-mx/"));
-juegos.push (new Juegos ("Tomb Raider", 1200, "https://store.steampowered.com/app/203160/Tomb_Raider/"));
-juegos.push (new Juegos ("BioShock", 300, "https://store.steampowered.com/app/7670/BioShock/"));
-for (const juego of  juegos)
-    juego.sumaImpuestos();
-console.log(juegos)
+///Agregar objetos a la tabla.
+function agregarProductosTabla() {
+  productos.forEach((producto) => {
+    let filaTabla = document.createElement("tr");
+    filaTabla.innerHTML = `
+      <td>${producto.nombre}</td>
+      <td>${producto.valor}</td>
+      <td>${producto.impuestos}</td>
+      <td>${producto.total}</td>`;
+    tabla.tBodies[0].append(filaTabla);
+  });
+}
+
+///Totales para visualización del usuario
+function calcularTotales() {
+    let totalImpuestos = 0;
+    let totalTotal = 0;
+  
+    totalImpuestos = productos.reduce(
+      (acumulador, item) => acumulador + item.calcularImpuestos(),
+      0
+    );
+  
+    totalTotal = productos.reduce(
+      (acumulador, item) => acumulador + item.calcularTotal(),
+      0
+    );
+  
+    textoImpuestos.innerText = totalImpuestos;
+    textoTotal.innerText = totalTotal;
+  
+}
+
+/// Secuencia
+function main() {
+    nombr();
+    inicializarElementos();
+    agregarProductosTabla();
+    calcularTotales()
+}
+///inicio de ciclo.
+main();
