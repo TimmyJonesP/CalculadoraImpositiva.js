@@ -26,6 +26,14 @@
 
     <main class="bg-dark">
         <section>
+            <form action="post" method="post" class="input-group mb-3 " id="form">
+                <input type="text" class="form-control" id="name" value="nombre del juego" required>
+                <input type="number" class="form-control" id="precio" value="valor del juego" required>
+                <input class="btn btn-primary justify-center" type="submit" value="submit" id="agregar">
+            </form> 
+        </section>
+
+        <section>
             <table id="tabla-productos" class="table text-light">
                 <thead>
                 <tr>
