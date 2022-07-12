@@ -1,7 +1,7 @@
-let textoTotal;
 //Constantes y var
 const productos = [];
 let tabla;
+let textoTotal;
 let textoImpuestos;
 ///OBJETO
 class Producto {
@@ -35,6 +35,12 @@ function agregarProductosTabla() {
         tabla.tBodies[0].append(filaTabla);
     });
     calcularTotales()
+}
+///funcion para limpiar la tabla e imprimir bien el array
+function limpiarTabla() {
+    while (tabla.rows.length > 1) {
+        tabla.deleteRow(1);
+    }
 }
 ///Totales para visualización del usuario
 function calcularTotales() {
@@ -80,8 +86,3 @@ function main() {
 }
 ///inicio de ciclo.
 main()
-function limpiarTabla() {
-    while (tabla.rows.length > 1) {
-        tabla.deleteRow(1);
-    }
-}
