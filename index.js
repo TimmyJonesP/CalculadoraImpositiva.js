@@ -9,6 +9,7 @@ function inicializarElementos() {
     tabla = document.getElementById("tabla-productos");
     textoImpuestos = document.querySelector("#totalImpuestos span");
     textoTotal = document.querySelector("#totalTotal span");
+    historial = document.getElementById("historial")
 }
 
 ///OBJETO
@@ -37,36 +38,41 @@ entry.addEventListener("click", registro);
 function registro(e) {
     e.preventDefault()
     
+    localStorage.clear
     let nombre = document.getElementById("name").value;
     let valor = parseInt(document.getElementById("precio").value);
-    let impuestos = valor * 0.65;
+    let impuestos = valor * 0.75;
     let total = valor + impuestos;
-    
+
     let juegoARegistrar = new Producto(
         nombre,
         valor,
         impuestos,
         total
-        );
-        juegos.push(juegoARegistrar);
-        limpiarTabla();
-        agregarProductosTabla();
-        localStorage.setItem("cloud", JSON.stringify(juegos))
-    }
-    ///Totales para visualización del usuario
-    function calcularTotales() {
-        let totalImpuestos = 0;
-        let totalTotal = 0;
-        
-        totalImpuestos = juegos.reduce(
-            (acumulador, item) => acumulador + item.calcularImpuestos(), 0
-            );
-            
-            totalTotal = juegos.reduce(
-                (acumulador, item) => acumulador + item.calcularTotal(), 0
-                );
-                
-                textoImpuestos.innerText = totalImpuestos;
+    );
+    juegos.push(juegoARegistrar);
+    limpiarTabla();
+    agregarProductosTabla();
+    localStorage.setItem("nombre", JSON.stringify(nombre))
+    localStorage.setItem("valor", JSON.stringify(valor))
+    localStorage.setItem("impuestos", JSON.stringify(impuestos))
+    localStorage.setItem("total", JSON.stringify(total))
+    localStorage.setItem("cloud", JSON.stringify(juegos))
+}
+///Totales para visualización del usuario
+function calcularTotales() {
+    let totalImpuestos = 0;
+    let totalTotal = 0;
+
+    totalImpuestos = juegos.reduce(
+        (acumulador, item) => acumulador + item.calcularImpuestos(), 0
+    );
+
+    totalTotal = juegos.reduce(
+        (acumulador, item) => acumulador + item.calcularTotal(), 0
+    );
+
+    textoImpuestos.innerText = totalImpuestos;
     textoTotal.innerText = totalTotal;
 }
 ///Agregar objetos a la tabla.
@@ -82,24 +88,27 @@ function agregarProductosTabla() {
     });
     calcularTotales()
 }
+///usando el localstorage
+function restaurar(){
+    let nombre = JSON.parse(localStorage.getItem("nombre"));
+    let valor = JSON.parse(localStorage.getItem("valor"))
+    let impuestos = JSON.parse(localStorage.getItem("impuestos"))
+    let total = JSON.parse(localStorage.getItem("total"))
+    historial.innerHTML ="Tu última búsqueda fué: " + nombre +"<br>" + "Indicado en la plataforma: $" +  valor + "<br>" + " Impuestos: $" + impuestos + "<br>" + "TOTAL: $" + total
+    console.log(JSON.parse(localStorage.getItem("cloud")))
+}
+
+///OPERADORES
+function validacion(){
+    cookies = localStorage.length
+    cookies > 0 ? restaurar() : null
+}
+
 /// Secuencia
 function main() {
     inicializarElementos();
-    recuperar()
+    calcularTotales();
+    validacion()
 }
 ///inicio de ciclo.
 main()
-function recuperar(){ 
-    let nube = JSON.parse(localStorage.getItem("cloud"))
-    nombre = nube.nombre
-    valor = nube.valor
-    impuestos = nube.impuestos
-    total = nube.total
-    let recuperarData = new Producto(
-        nombre,
-        valor,
-        impuestos,
-        total
-    )
-    juegos.push(recuperarData)
-}
