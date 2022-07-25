@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Toastify-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <title>Clase 37470 - Sandro Carioli</title>
 </head>
 <body>
@@ -24,16 +26,17 @@
         </div>
     </header>
     <section>
-        <h1 id="historial" class="text-dark text-center"></h1>
+        <h2 id="historial" class="text-dark text-center"></h1>
     </section>
 
     <main class="bg-dark">
         <section>
             <form id="container">
                 <div class="form-control">
-                    <label for="name" class="input">Nombre del juego: </label><input class="form m-3" id="name" name="name" type="text" required />
-                    <label for="precio" class="input">Coste del juego: </label><input class="input m-3" id="precio" name="precio" type="number" required />
+                    <label for="name" class="input">Nombre del juego: </label><input class="form m-3" id="name" name="name" type="text" required/>
+                    <label for="precio" class="input">Coste del juego: </label><input class="input m-3" id="precio" name="precio" type="number" required/>
                     <button type="button" id="entry" class="btn btn-primary">Agregar producto</button>
+                    <button type="button" id="cleanse" class="btn btn-danger">Eliminar datos</button>
                 </div>
             </form>
         </section>
@@ -59,8 +62,11 @@
                 </div>
         </section>
     </main>
-
+    <!-- Script Bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    <script src="./index.js"></script>
+    <!-- Script Toastify-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- Script Propio-->
+    <script src="./js/index.js"></script>
 </body>
 </html>
