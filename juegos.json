@@ -1,0 +1,23 @@
+[
+    {
+        "id":1,
+        "nombre": "Prince of Persia",
+        "precio": 200,
+        "precioReal": 350,
+        "imagen": "./media/prince.jpg"
+    },
+    {
+        "id":2,
+        "nombre": "God of War",
+        "precio": 500,
+        "precioReal": 875,
+        "imagen": "./media/god.jpg"
+    },
+    {
+        "id":1,
+        "nombre": "Forza Horizon 5",
+        "precio": 500,
+        "precioReal": 875,
+        "imagen": "./media/forza.jpg"
+    }
+]

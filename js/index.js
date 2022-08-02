@@ -136,7 +136,33 @@ function restaurar(){
     historial.innerHTML = "Tu última búsqueda fué: " + nombre +"<br>" + "Indicado en la plataforma: $" +  valor + "<br>" + " Impuestos: $" + impuestos + "<br>" + "TOTAL: $" + total
     console.log(JSON.parse(localStorage.getItem("cloud")))
 }
+///JSON
+async function usoJson(){
+    let cartas = document.getElementById("json")
+    let response;
+    let data;
 
+    try{
+        response = await fetch("juegos.json");
+        data = await response.json();
+        return data
+    } catch (error){
+        console.log(error)
+    }
+    data.forEach((jogo)=> {
+        let card = document.createElement("div")
+        card.innerHTML = `
+        <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="${jogo.imagen}" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title">${jogo.nombre}</h5>
+          <p class="card-text">${jogo.precio}</p>
+          <p class="card-text text-danger">${jogo.precioReal}</p>
+        </div>
+      </div>`;
+      cartas.append(card)
+    })
+}
 ///OPERADORES
 function validacion(){
     cookies = localStorage.length
@@ -145,6 +171,7 @@ function validacion(){
 
 /// Secuencia
 function main() {
+    usoJson();
     inicializarElementos();
     calcularTotales();
     validacion()
