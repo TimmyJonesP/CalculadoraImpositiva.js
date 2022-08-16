@@ -3,7 +3,18 @@ const juegos = [];
 let tabla;
 let textoTotal;
 let textoImpuestos;
-
+/// Tostadas de inputs
+function toastyError(){
+    Toastify({
+        text: "Debe rellenar ambos datos correctamente para poder visualizar los costos.",
+        className: "warning",
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "rgba(253,29,29,1) 51%",
+        }
+      }).showToast();
+}
 ///Entrada a Tabla
 function inicializarElementos() {
     tabla = document.getElementById("tabla-productos");
@@ -52,18 +63,31 @@ function agregarProductosTabla() {
     calcularTotales()
 }
 
-///Entrada de objetos mediante evento
+///Evento de click para tomar los inputs.
 let entry = document.getElementById("entry");
-entry.addEventListener("click", registro);
-function registro(e) {
+entry.addEventListener("click", validacionForm);
+
+///Valida que estén los datos correspondientes para que no se cargue un objeto vacío
+function validacionForm(e){
     e.preventDefault()
     
+    let nombre = document.getElementById("name").value;
+    let valor = parseInt(document.getElementById("precio").value);
+    if (nombre == "" || isNaN(valor)){
+        toastyError()
+    }
+    else{
+        registro()
+    }
+}
+///Si pasa la validación se ejecuta el registro del objeto dentro del array y del local storage
+function registro() {
+
     localStorage.clear()
     let nombre = document.getElementById("name").value;
     let valor = parseInt(document.getElementById("precio").value);
-    let impuestos = valor * 0.65;
+    let impuestos = valor * 0.75;
     let total = valor + impuestos;
-
     let juegoARegistrar = new Producto(
         nombre,
         valor,
@@ -94,6 +118,8 @@ function registro(e) {
 ///botón de eliminar
 let limpiar = document.getElementById("cleanse");
 limpiar.addEventListener("click", limpio);
+
+//función llamada
 function limpio(e){
     e.preventDefault()
     ///Limpio localstorage y la clase producto.
@@ -106,7 +132,7 @@ function limpio(e){
     calcularTotales()
     ///para vaciar el historial si se cumple la condición.
     validacion()
-    ///una tostadita porque queda lindo.
+    ///una toast para confirmar y dar feedback.
     Toastify({
         text: "Se han eliminado todos los datos y restablecido la página.",
         className: "info",
@@ -142,7 +168,6 @@ function restaurar(){
     let impuestos = JSON.parse(localStorage.getItem("impuestos"))
     let total = JSON.parse(localStorage.getItem("total"))
     historial.innerHTML = "Tu última búsqueda fué: " + nombre +"<br>" + "Indicado en la plataforma: $" +  valor + "<br>" + " Impuestos: $" + impuestos + "<br>" + "TOTAL: $" + total
-    console.log(JSON.parse(localStorage.getItem("cloud")))
 }
 ///Toma los objetos del array del JSON para aplicarlos dentro de la página.
 async function usoJson(){
