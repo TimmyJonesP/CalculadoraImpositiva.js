@@ -32,7 +32,27 @@ function limpiarTabla() {
     }
 }
 
-///Entrada de Objetos
+///Operador con validación hacia el localstorage.
+function validacion(){
+    cookies = localStorage.length
+    cookies > 0 ? restaurar() : historial.innerHTML = ""
+}
+
+///Agregar objetos a la tabla.
+function agregarProductosTabla() {
+    juegos.forEach((juego) => {
+        let filaTabla = document.createElement("tr");
+        filaTabla.innerHTML = `
+        <td>${juego.nombre}</td>
+        <td>${juego.valor}</td>
+        <td>${juego.impuestos}</td>
+        <td>${juego.total}</td>`;
+        tabla.tBodies[0].append(filaTabla);
+    });
+    calcularTotales()
+}
+
+///Entrada de objetos mediante evento
 let entry = document.getElementById("entry");
 entry.addEventListener("click", registro);
 function registro(e) {
@@ -41,7 +61,7 @@ function registro(e) {
     localStorage.clear()
     let nombre = document.getElementById("name").value;
     let valor = parseInt(document.getElementById("precio").value);
-    let impuestos = valor * 0.75;
+    let impuestos = valor * 0.65;
     let total = valor + impuestos;
 
     let juegoARegistrar = new Producto(
@@ -114,20 +134,8 @@ function calcularTotales() {
     textoImpuestos.innerText = totalImpuestos;
     textoTotal.innerText = totalTotal;
 }
-///Agregar objetos a la tabla.
-function agregarProductosTabla() {
-    juegos.forEach((juego) => {
-        let filaTabla = document.createElement("tr");
-        filaTabla.innerHTML = `
-        <td>${juego.nombre}</td>
-        <td>${juego.valor}</td>
-        <td>${juego.impuestos}</td>
-        <td>${juego.total}</td>`;
-        tabla.tBodies[0].append(filaTabla);
-    });
-    calcularTotales()
-}
-///usando el localstorage
+
+///Enviando datos del localstorage mediante DOM sobre la última busqueda
 function restaurar(){
     let nombre = JSON.parse(localStorage.getItem("nombre"));
     let valor = JSON.parse(localStorage.getItem("valor"))
@@ -136,45 +144,39 @@ function restaurar(){
     historial.innerHTML = "Tu última búsqueda fué: " + nombre +"<br>" + "Indicado en la plataforma: $" +  valor + "<br>" + " Impuestos: $" + impuestos + "<br>" + "TOTAL: $" + total
     console.log(JSON.parse(localStorage.getItem("cloud")))
 }
-///JSON
+///Toma los objetos del array del JSON para aplicarlos dentro de la página.
 async function usoJson(){
     let cartas = document.getElementById("json")
     let response;
     let data;
 
     try{
-        response = await fetch("juegos.json");
+        response = await fetch("../juegos.json");
         data = await response.json();
-        return data
     } catch (error){
         console.log(error)
     }
     data.forEach((jogo)=> {
         let card = document.createElement("div")
         card.innerHTML = `
-        <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="${jogo.imagen}" alt="Card image cap">
+        <div class="card m-5" style="width: 18rem;">
+        <img class="card-img-top  w-100" src="${jogo.imagen}" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">${jogo.nombre}</h5>
-          <p class="card-text">${jogo.precio}</p>
-          <p class="card-text text-danger">${jogo.precioReal}</p>
+          <p class="card-text">$${jogo.precio}</p>
+          <p class="card-text text-danger">$${jogo.precioReal}</p>
         </div>
       </div>`;
       cartas.append(card)
     })
 }
-///OPERADORES
-function validacion(){
-    cookies = localStorage.length
-    cookies > 0 ? restaurar() : historial.innerHTML = ""
-}
 
 /// Secuencia
 function main() {
-    usoJson();
     inicializarElementos();
     calcularTotales();
-    validacion()
+    validacion();
+    usoJson()
 }
 ///inicio de ciclo.
 main()
