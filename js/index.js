@@ -1,9 +1,9 @@
 //Constantes y var
 const juegos = [];
 let tabla;
-let textoTotal;
 let textoImpuestos;
-/// Tostadas de inputs
+let textoTotal;
+/// Tostada de input sin llenar.
 function toastyError(){
     Toastify({
         text: "Debe rellenar ambos datos correctamente para poder visualizar los costos.",
@@ -103,7 +103,7 @@ function registro() {
     localStorage.setItem("impuestos", JSON.stringify(impuestos))
     localStorage.setItem("total", JSON.stringify(total))
     localStorage.setItem("cloud", JSON.stringify(juegos))
-    // toast
+    // toast de feedback
     Toastify({
         text: "Se ha almacenado el último juego y se ha aplicado a la tabla.",
         className: "info",
