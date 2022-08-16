@@ -151,7 +151,7 @@ async function usoJson(){
     let data;
 
     try{
-        response = await fetch("../juegos.json");
+        response = await fetch("../json/juegos.json");
         data = await response.json();
     } catch (error){
         console.log(error)
